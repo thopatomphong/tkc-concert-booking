@@ -1,39 +1,36 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Concert Mini App (Vendor B)
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+A self-contained Flutter package providing concert browsing, ticket booking,
+and a bookings list.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+## How the Core App integrates it
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+This package exports exactly two things:
 
-## Features
+- `ConcertHost` - the interface the Core App must implement.
+- `ConcertMiniApp.create({required ConcertHost host})` - returns the Mini App
+  widget.
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+The Core App implements `ConcertHost`, provides an authenticated `Dio`, and
+places `ConcertMiniApp.create(...)` on its navigation stack. The Mini App
+handles no login or token logic and is integrated without modifying this
+package's code.
 
-## Getting started
+Delivery to the Core App is by Git tag: the Core App depends on this repo via a
+`git:` dependency pinned to a release tag, for example `v1.0.0`.
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## Standalone development
 
-## Usage
+`example/` runs the Mini App with a `FakeConcertHost`:
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+```bash
+docker compose up -d
+cd example
+flutter run
 ```
 
-## Additional information
+## Tests
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```bash
+flutter test
+```
