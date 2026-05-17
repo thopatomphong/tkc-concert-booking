@@ -30,6 +30,13 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Superpowers and Documentation
+/doc/
+/docs/
+/spec/
+/specs/
+/.superpowers/
+
 # Generated code
 **/*.g.dart
 **/*.freezed.dart
