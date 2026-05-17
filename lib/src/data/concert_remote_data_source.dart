@@ -1,38 +1,38 @@
+import 'package:concert_mini_app/src/data/concert_api_service.dart';
 import 'package:concert_mini_app/src/domain/entities/booking.dart';
 import 'package:concert_mini_app/src/domain/entities/concert.dart';
-import 'package:dio/dio.dart';
 
 class DioConcertRemoteDataSource {
-  const DioConcertRemoteDataSource(this._dio);
+  const DioConcertRemoteDataSource(this._apiService);
 
-  final Dio _dio;
+  final ConcertApiService _apiService;
 
   Future<List<Concert>> getConcerts() async {
-    final res = await _dio.get<List<dynamic>>('/concert');
-    return (res.data ?? <dynamic>[])
+    final payload = await _apiService.fetchConcerts();
+    return payload
         .map((dynamic item) => Concert.fromJson(item as Map<String, dynamic>))
         .toList();
   }
 
   Future<Concert> getConcert(int id) async {
-    final res = await _dio.get<Map<String, dynamic>>('/concert/$id');
-    return Concert.fromJson(res.data!);
+    final payload = await _apiService.fetchConcert(id);
+    return Concert.fromJson(payload);
   }
 
   Future<Booking> createBooking({
     required int concertId,
     required int quantity,
   }) async {
-    final res = await _dio.post<Map<String, dynamic>>(
-      '/booking',
-      data: <String, dynamic>{'concertId': concertId, 'quantity': quantity},
+    final payload = await _apiService.createBooking(
+      concertId: concertId,
+      quantity: quantity,
     );
-    return Booking.fromJson(res.data!);
+    return Booking.fromJson(payload);
   }
 
   Future<List<Booking>> getBookings() async {
-    final res = await _dio.get<List<dynamic>>('/booking');
-    return (res.data ?? <dynamic>[])
+    final payload = await _apiService.fetchBookings();
+    return payload
         .map((dynamic item) => Booking.fromJson(item as Map<String, dynamic>))
         .toList();
   }

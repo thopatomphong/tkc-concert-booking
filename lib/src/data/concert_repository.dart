@@ -1,3 +1,4 @@
+import 'package:concert_mini_app/src/data/concert_api_service.dart';
 import 'package:concert_mini_app/src/data/concert_remote_data_source.dart';
 import 'package:concert_mini_app/src/domain/entities/booking.dart';
 import 'package:concert_mini_app/src/domain/entities/concert.dart';
@@ -9,7 +10,9 @@ class DioConcertRepository implements ConcertRepository {
   const DioConcertRepository(this._remoteDataSource);
 
   factory DioConcertRepository.fromDio(Dio dio) {
-    return DioConcertRepository(DioConcertRemoteDataSource(dio));
+    return DioConcertRepository(
+      DioConcertRemoteDataSource(ConcertApiService(dio)),
+    );
   }
 
   final DioConcertRemoteDataSource _remoteDataSource;
